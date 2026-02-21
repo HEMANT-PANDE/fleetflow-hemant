@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import VehicleRegistry from './pages/VehicleRegistry'
+import TripManagement from './pages/TripManagement'
+import MaintenanceLogs from './pages/MaintenanceLogs'
+import DriverProfiles from './pages/DriverProfiles'
 
 function App() {
   return (
@@ -11,6 +14,9 @@ function App() {
           <Routes>
             <Route path="/" element={<VehicleRegistry />} />
             <Route path="/vehicles" element={<VehicleRegistry />} />
+            <Route path="/trips" element={<TripManagement />} />
+            <Route path="/maintenance" element={<MaintenanceLogs />} />
+            <Route path="/drivers" element={<DriverProfiles />} />
           </Routes>
         </main>
       </div>
