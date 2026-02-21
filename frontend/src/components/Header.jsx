@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 function Header() {
   const location = useLocation()
-  
+
   const isActive = (path) => {
     if (path === '/vehicles') {
       return location.pathname === '/' || location.pathname === '/vehicles'
@@ -11,40 +11,34 @@ function Header() {
     return location.pathname === path
   }
 
+  const navLinks = [
+    { path: '/vehicles', label: 'Vehicles' },
+    { path: '/trips', label: 'Trips' },
+    { path: '/maintenance', label: 'Maintenance' },
+    { path: '/drivers', label: 'Drivers' },
+    { path: '/expenses', label: 'Expenses' },
+    { path: '/analytics', label: 'Analytics' },
+  ]
+
   return (
     <header className="header">
-      <div className="header-logo">
-        <Truck size={28} />
-        <h1>Fleet<span>Flow</span></h1>
+      <div className="header-left">
+        <div className="header-logo">
+          <Truck size={28} />
+          <h1>Fleet<span>Flow</span></h1>
+        </div>
+        <nav className="header-nav">
+          {navLinks.map(link => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`nav-link ${isActive(link.path) ? 'nav-link-active' : ''}`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </div>
-      
-      <nav className="header-nav">
-        <Link 
-          to="/vehicles" 
-          className={`nav-link ${isActive('/vehicles') ? 'active' : ''}`}
-        >
-          Vehicles
-        </Link>
-        <Link 
-          to="/trips" 
-          className={`nav-link ${isActive('/trips') ? 'active' : ''}`}
-        >
-          Trips
-        </Link>
-        <Link 
-          to="/maintenance" 
-          className={`nav-link ${isActive('/maintenance') ? 'active' : ''}`}
-        >
-          Maintenance
-        </Link>
-        <Link 
-          to="/drivers" 
-          className={`nav-link ${isActive('/drivers') ? 'active' : ''}`}
-        >
-          Drivers
-        </Link>
-      </nav>
-
       <div className="header-status">
         <div className="status-indicator"></div>
         <span style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>System Online</span>
