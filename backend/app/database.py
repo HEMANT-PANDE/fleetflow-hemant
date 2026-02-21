@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://fleetflow:fleetflow@localhost:5432/fleetflow")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:odooFleetFlow@db.fumslzmnzmwwmkmvhuui.supabase.co:5432/postgres")
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
