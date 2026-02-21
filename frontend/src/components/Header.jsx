@@ -5,18 +5,19 @@ function Header() {
   const location = useLocation()
 
   const isActive = (path) => {
-    if (path === '/vehicles') {
-      return location.pathname === '/' || location.pathname === '/vehicles'
+    if (path === '/dashboard') {
+      return location.pathname === '/' || location.pathname === '/dashboard'
     }
     return location.pathname === path
   }
 
   const navLinks = [
-    { path: '/vehicles', label: 'Vehicles' },
-    { path: '/trips', label: 'Trips' },
+    { path: '/dashboard', label: 'Dashboard' },
+    { path: '/vehicles', label: 'Vehicle Registry' },
+    { path: '/trips', label: 'Trip Dispatcher' },
     { path: '/maintenance', label: 'Maintenance' },
-    { path: '/drivers', label: 'Drivers' },
-    { path: '/expenses', label: 'Expenses' },
+    { path: '/expenses', label: 'Trip & Expense' },
+    { path: '/drivers', label: 'Performance' },
     { path: '/analytics', label: 'Analytics' },
   ]
 
