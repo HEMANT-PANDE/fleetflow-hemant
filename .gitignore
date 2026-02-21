@@ -1,0 +1,24 @@
+# Environments
+venv/
+env/
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest
+.pytest_cache/
+test_results*.txt
+test.db
+
+# FastAPI / Uvicorn
+.venv/
+.coverage
+coverage.xml
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
