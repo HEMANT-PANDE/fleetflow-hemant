@@ -53,10 +53,6 @@ class Vehicle(Base):
     type = Column(Enum(VehicleType), nullable=False)
     status = Column(Enum(VehicleStatus), default=VehicleStatus.AVAILABLE)
 
-    trips = relationship("Trip", back_populates="vehicle")
-    maintenance_logs = relationship("MaintenanceLog", back_populates="vehicle")
-    expense_logs = relationship("ExpenseLog", back_populates="vehicle")
-
 class Driver(Base):
     __tablename__ = "drivers"
 
