@@ -1,0 +1,391 @@
+﻿alembic : INFO  [alembi
+c.runtime.migration] 
+Context impl 
+PostgresqlImpl.
+At line:1 char:1
++ alembic upgrade head 
+> alembic_upgrade_error
+.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (INFO  [alembi   
+ c....PostgresqlImp    
+l.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+INFO  [alembic.runtime.
+migration] Will assume 
+transactional DDL.
+INFO  [alembic.runtime.
+migration] Running 
+upgrade  -> 
+a05cd0f8278f, Initial 
+Unified Schema
+D:\codes\projects\odoo-
+hackathon\fleetflow\fle
+etflow-hemant\page-2-co
+mmand-center\backend\ve
+nv\Lib\site-packages\al
+embic\ddl\postgresql.py
+:187: UserWarning: 
+autoincrement and 
+existing_autoincrement 
+only make sense for 
+MySQL
+  super().alter_column(
+Traceback (most recent 
+call last):
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\engine
+\base.py", line 1970, 
+in _exec_single_context
+    self.dialect.do_exe
+cute(
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\engine
+\default.py", line 
+924, in do_execute
+    cursor.execute(stat
+ement, parameters)
+psycopg2.errors.SyntaxE
+rror: column "id" of 
+relation "drivers" is 
+an identity column
+HINT:  Use ALTER TABLE 
+... ALTER COLUMN ... 
+DROP IDENTITY instead.
+
+
+The above exception 
+was the direct cause 
+of the following 
+exception:
+
+Traceback (most recent 
+call last):
+  File "<frozen 
+runpy>", line 198, in 
+_run_module_as_main
+  File "<frozen 
+runpy>", line 88, in 
+_run_code
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Scripts\alem
+bic.exe\__main__.py", 
+line 7, in <module>
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\config.py
+", line 641, in main
+    CommandLine(prog=pr
+og).main(argv=argv)
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\config.py
+", line 631, in main
+    self.run_cmd(cfg, 
+options)
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\config.py
+", line 608, in run_cmd
+    fn(
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\command.p
+y", line 403, in 
+upgrade
+    script.run_env()
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\script\ba
+se.py", line 583, in 
+run_env
+    util.load_python_fi
+le(self.dir, "env.py")
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\util\pyfi
+les.py", line 95, in 
+load_python_file
+    module = load_modul
+e_py(module_id, path)
+             ^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\util\pyfi
+les.py", line 113, in 
+load_module_py
+    spec.loader.exec_mo
+dule(module)  # type: 
+ignore
+    ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
+  File "<frozen importl
+ib._bootstrap_external>
+", line 995, in 
+exec_module
+  File "<frozen importl
+ib._bootstrap>", line 
+488, in _call_with_fram
+es_removed
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\b
+ackend\alembic\env.py",
+ line 88, in <module>
+    
+run_migrations_online()
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\b
+ackend\alembic\env.py",
+ line 82, in 
+run_migrations_online
+    context.run_migrati
+ons()
+  File "<string>", 
+line 8, in 
+run_migrations
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\runtime\e
+nvironment.py", line 
+948, in run_migrations
+    self.get_context().
+run_migrations(**kw)
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\runtime\m
+igration.py", line 
+627, in run_migrations
+    
+step.migration_fn(**kw)
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\b
+ackend\alembic\versions
+\a05cd0f8278f_initial_u
+nified_schema.py", 
+line 25, in upgrade
+    op.alter_column('dr
+ivers', 'id',
+  File "<string>", 
+line 8, in alter_column
+  File "<string>", 
+line 3, in alter_column
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\operation
+s\ops.py", line 1943, 
+in alter_column
+    return 
+operations.invoke(alt)
+           
+^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\operation
+s\base.py", line 445, 
+in invoke
+    return fn(self, 
+operation)
+           
+^^^^^^^^^^^^^^^^^^^
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\operation
+s\toimpl.py", line 53, 
+in alter_column
+    operations.impl.alt
+er_column(
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\ddl\postg
+resql.py", line 187, 
+in alter_column
+    
+super().alter_column(
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\ddl\impl.
+py", line 273, in 
+alter_column
+    self._exec(
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\alembic\ddl\impl.
+py", line 207, in _exec
+    return conn.execute
+(construct, 
+multiparams)
+           ^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+^
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\engine
+\base.py", line 1421, 
+in execute
+    return meth(
+           ^^^^^
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\sql\dd
+l.py", line 180, in 
+_execute_on_connection
+    return connection._
+execute_ddl(
+           ^^^^^^^^^^^^
+^^^^^^^^^^^^
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\engine
+\base.py", line 1532, 
+in _execute_ddl
+    ret = 
+self._execute_context(
+          
+^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\engine
+\base.py", line 1849, 
+in _execute_context
+    return self._exec_s
+ingle_context(
+           ^^^^^^^^^^^^
+^^^^^^^^^^^^^^
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\engine
+\base.py", line 1989, 
+in _exec_single_context
+    self._handle_dbapi_
+exception(
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\engine
+\base.py", line 2356, 
+in 
+_handle_dbapi_exception
+    raise sqlalchemy_ex
+ception.with_traceback(
+exc_info[2]) from e
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\engine
+\base.py", line 1970, 
+in _exec_single_context
+    self.dialect.do_exe
+cute(
+  File "D:\codes\projec
+ts\odoo-hackathon\fleet
+flow\fleetflow-hemant\p
+age-2-command-center\ba
+ckend\venv\Lib\site-pac
+kages\sqlalchemy\engine
+\default.py", line 
+924, in do_execute
+    cursor.execute(stat
+ement, parameters)
+sqlalchemy.exc.Programm
+ingError: (psycopg2.err
+ors.SyntaxError) 
+column "id" of 
+relation "drivers" is 
+an identity column
+HINT:  Use ALTER TABLE 
+... ALTER COLUMN ... 
+DROP IDENTITY instead.
+
+[SQL: ALTER TABLE 
+drivers ALTER COLUMN 
+id DROP DEFAULT]
+(Background on this 
+error at: https://sqlal
+che.me/e/20/f405)

@@ -4,21 +4,13 @@ import { Link, useLocation } from 'react-router-dom'
 function Header() {
   const location = useLocation()
 
-  const isActive = (path) => {
-    if (path === '/dashboard') {
-      return location.pathname === '/' || location.pathname === '/dashboard'
-    }
-    return location.pathname === path
-  }
-
-  const navLinks = [
+  const navItems = [
     { path: '/dashboard', label: 'Dashboard' },
-    { path: '/vehicles', label: 'Vehicle Registry' },
-    { path: '/trips', label: 'Trip Dispatcher' },
+    { path: '/vehicles', label: 'Vehicles' },
+    { path: '/dispatch', label: 'Dispatch' },
+    { path: '/drivers', label: 'Drivers' },
     { path: '/maintenance', label: 'Maintenance' },
-    { path: '/expenses', label: 'Trip & Expense' },
-    { path: '/drivers', label: 'Performance' },
-    { path: '/analytics', label: 'Analytics' },
+    { path: '/finance', label: 'Finance' },
   ]
 
   return (
@@ -40,6 +32,25 @@ function Header() {
           ))}
         </nav>
       </div>
+
+      <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+        {navItems.map(item => (
+          <Link
+            key={item.path}
+            to={item.path}
+            style={{
+              textDecoration: 'none',
+              color: location.pathname === item.path ? 'var(--primary-blue)' : 'var(--gray-600)',
+              fontWeight: location.pathname === item.path ? 600 : 500,
+              fontSize: '0.875rem',
+              transition: 'color 0.2s'
+            }}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </nav>
+
       <div className="header-status">
         <div className="status-indicator"></div>
         <span style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>System Online</span>
