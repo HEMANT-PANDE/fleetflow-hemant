@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Header from './components/Header'
 import VehicleRegistry from './pages/VehicleRegistry'
 import TripManagement from './pages/TripManagement'
@@ -8,17 +8,23 @@ import ExpenseLogging from './pages/ExpenseLogging'
 import Analytics from './pages/Analytics'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 import Dashboard from './pages/Dashboard'
 
 function AppContent() {
   const location = useLocation()
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/register'
+  const authPages = ['/', '/login', '/register', '/forgot-password', '/reset-password']
+  const isAuthPage = authPages.includes(location.pathname)
 
   if (isAuthPage) {
     return (
       <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     )
   }
@@ -28,7 +34,6 @@ function AppContent() {
       <Header />
       <main className="main-content">
         <Routes>
-          <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/vehicles" element={<VehicleRegistry />} />
           <Route path="/trips" element={<TripManagement />} />

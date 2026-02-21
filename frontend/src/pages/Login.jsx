@@ -28,7 +28,7 @@ function Login() {
         <div className="auth-logo">
           <Truck size={48} />
         </div>
-        
+
         <h2 className="auth-title">Welcome Back</h2>
         <p className="auth-subtitle">Sign in to FleetFlow</p>
 
@@ -72,6 +72,10 @@ function Login() {
               onChange={handleChange}
               required
             />
+          </div>
+
+          <div className="forgot-password-link">
+            <Link to="/forgot-password">Forgot Password?</Link>
           </div>
 
           <button type="submit" className="btn btn-primary auth-btn">

@@ -762,6 +762,338 @@ body {
   text-decoration: underline;
 }
 
+/* Forgot Password Link on Login */
+.forgot-password-link {
+  text-align: right;
+  margin-top: -0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.forgot-password-link a {
+  font-size: 0.8125rem;
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.forgot-password-link a:hover {
+  color: var(--primary-blue-dark);
+  text-decoration: underline;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.auth-step-content {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Input with Icon */
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 0.875rem;
+  color: var(--gray-400);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.form-input-icon {
+  padding-left: 2.75rem;
+}
+
+.form-input-password {
+  padding-right: 2.75rem;
+}
+
+/* Password Toggle */
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--gray-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.password-toggle:hover {
+  color: var(--gray-600);
+}
+
+/* OTP Inputs */
+.otp-container {
+  display: flex;
+  gap: 0.625rem;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.otp-input {
+  width: 52px;
+  height: 58px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2px solid var(--gray-300);
+  border-radius: 0.75rem;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  transition: all 0.2s ease;
+  caret-color: var(--primary-blue);
+}
+
+.otp-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  transform: scale(1.05);
+}
+
+.otp-filled {
+  border-color: var(--primary-blue);
+  background: rgba(37, 99, 235, 0.04);
+}
+
+.otp-error {
+  border-color: var(--status-retired) !important;
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.otp-error:focus {
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+}
+
+/* OTP Icon */
+.otp-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  color: var(--primary-blue);
+}
+
+/* OTP Resend */
+.otp-resend {
+  text-align: center;
+  margin-top: 1.25rem;
+}
+
+.resend-timer {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.resend-btn strong {
+  color: var(--primary-blue);
+}
+
+.resend-btn:hover {
+  color: var(--gray-700);
+}
+
+.resend-btn:hover strong {
+  text-decoration: underline;
+}
+
+/* Back Link */
+.back-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  margin-top: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.back-link:hover {
+  color: var(--primary-blue);
+  background: rgba(37, 99, 235, 0.05);
+}
+
+/* Auth Error */
+.auth-error {
+  color: var(--status-retired);
+  font-size: 0.8125rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(239, 68, 68, 0.06);
+  border-radius: 0.5rem;
+  border-left: 3px solid var(--status-retired);
+}
+
+/* Button Loading */
+.btn-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.spinner-small {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* Password Strength */
+.password-strength {
+  margin-top: 0.625rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.strength-bar-container {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+}
+
+.strength-bar-segment {
+  flex: 1;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--gray-200);
+}
+
+.strength-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* Password Checks */
+.password-checks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.375rem;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  background: var(--gray-50);
+  border-radius: 0.5rem;
+  border: 1px solid var(--gray-200);
+}
+
+.password-check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  transition: color 0.2s;
+}
+
+.check-met {
+  color: var(--primary-green);
+}
+
+.check-unmet {
+  color: var(--gray-400);
+}
+
+/* Field Hints */
+.field-hint {
+  font-size: 0.75rem;
+  margin-top: 0.375rem;
+  padding-left: 0.25rem;
+}
+
+.field-hint-error {
+  color: var(--status-retired);
+}
+
+.field-hint-success {
+  color: var(--primary-green);
+}
+
+/* Success Screen */
+.success-icon-wrapper {
+  width: 88px;
+  height: 88px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: var(--primary-green);
+  animation: successPop 0.5s ease-out;
+}
+
+@keyframes successPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Disabled button */
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
