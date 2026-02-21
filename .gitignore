@@ -1,24 +1,46 @@
-# Environments
-venv/
-env/
-.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Pytest
-.pytest_cache/
-test_results*.txt
-test.db
-
-# FastAPI / Uvicorn
-.venv/
-.coverage
-coverage.xml
-
-# IDE / OS
+# IDEs and Editors
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Database
+*.sqlite3
+*.db
+fleetflow.db
+
+# Logs
+*.log
+
+# pytest
+.pytest_cache/
+htmlcov/
+.coverage
+.tox/
+
+# OS generated files
 .DS_Store
+Thumbs.db
+
+# Frontend / Node environments
+node_modules/
+.next/
+out/
+build/
+dist/
+.env*.local
