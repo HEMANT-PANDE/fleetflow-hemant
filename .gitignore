@@ -1,17 +1,46 @@
-# Environment
-.env
-.env.local
 
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-venv/
-.venv/
+*$py.class
 
-# Node
-node_modules/
-dist/
-
-# IDE
+# IDEs and Editors
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Database
+*.sqlite3
+*.db
+fleetflow.db
+
+# Logs
+*.log
+
+# pytest
+.pytest_cache/
+htmlcov/
+.coverage
+.tox/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Frontend / Node environments
+node_modules/
+.next/
+out/
+build/
+dist/
+.env*.local
