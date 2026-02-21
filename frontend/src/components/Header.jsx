@@ -15,9 +15,22 @@ function Header() {
 
   return (
     <header className="header">
-      <div className="header-logo">
-        <Truck size={28} />
-        <h1>Fleet<span>Flow</span></h1>
+      <div className="header-left">
+        <div className="header-logo">
+          <Truck size={28} />
+          <h1>Fleet<span>Flow</span></h1>
+        </div>
+        <nav className="header-nav">
+          {navLinks.map(link => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`nav-link ${isActive(link.path) ? 'nav-link-active' : ''}`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </div>
 
       <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
