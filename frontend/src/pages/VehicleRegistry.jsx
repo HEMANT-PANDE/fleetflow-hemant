@@ -159,19 +159,7 @@ function VehicleRegistry() {
                     >
                       View
                     </button>
-                    <button
-                      className="btn btn-danger"
-                      style={{ fontSize: '0.75rem', padding: '0.25rem 0.75rem' }}
-                      onClick={() => handleToggleOutOfService(vehicle)}
-                      title={vehicle.status === 'Out of Service' ? 'Reactivate vehicle' : 'Mark Out of Service'}
-                      disabled={actionLoading === vehicle.id || vehicle.status === 'On Trip' || vehicle.status === 'In Shop'}
-                    >
-                      {actionLoading === vehicle.id
-                        ? '...'
-                        : vehicle.status === 'Out of Service'
-                          ? 'Reactivate'
-                          : 'Out of Service'}
-                    </button>
+                    
                   </td>
                 </tr>
               ))}

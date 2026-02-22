@@ -209,13 +209,29 @@ function Maintenance() {
                                     <td>
                                         <button
                                             className="btn btn-primary"
-                                            style={{ fontSize: '0.75rem', padding: '0.25rem 0.75rem', background: 'var(--primary-green)' }}
+                                            style={{
+                                            fontSize: '0.75rem',
+                                            padding: '0.25rem 0.75rem',
+                                            background:
+                                                !log.completed_at &&
+                                                vehicleMap[log.vehicle_id]?.status === "In Shop"
+                                                ? '#f59e0b'   // Yellow (In Progress)
+                                                : '#10b981'   // Green (Completed)
+                                            }}
                                             onClick={() => handleCompleteService(log.id)}
-                                            disabled={completingLog === log.id}
+                                            disabled={
+                                            completingLog === log.id ||
+                                            log.completed_at
+                                            }
                                             title="Mark service complete and release vehicle to Available"
                                         >
                                             <CheckCircle size={12} />
-                                            {completingLog === log.id ? '...' : 'Complete'}
+                                            {completingLog === log.id
+                                            ? '...'
+                                            : !log.completed_at &&
+                                                vehicleMap[log.vehicle_id]?.status === "In Shop"
+                                                ? 'In Progress'
+                                                : 'Completed'}
                                         </button>
                                     </td>
                                 </tr>

@@ -24,6 +24,7 @@ class VehicleStatus(str, PyEnum):
 
 class DriverStatus(str, PyEnum):
     ON_DUTY = "On Duty"
+    # ON_TRIP = "On Trip"
     OFF_DUTY = "Off Duty"
     SUSPENDED = "Suspended"
 
