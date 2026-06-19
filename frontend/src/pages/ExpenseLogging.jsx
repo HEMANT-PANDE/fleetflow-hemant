@@ -1,72 +1,64 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Search, Plus, Filter, ArrowUpDown, X, Receipt } from 'lucide-react'
 import ExpenseModal from '../components/ExpenseModal'
+import { expenseApi } from '../services/api'
 
 function ExpenseLogging() {
-    const [expenses, setExpenses] = useState([
-        {
-            id: 1,
-            trip_id: '321',
-            driver: 'John',
-            distance: '1000 km',
-            fuel_expense: '19k',
-            misc_expense: '3k',
-            status: 'Done'
-        },
-        {
-            id: 2,
-            trip_id: '322',
-            driver: 'Mike',
-            distance: '540 km',
-            fuel_expense: '11k',
-            misc_expense: '1.5k',
-            status: 'Done'
-        },
-        {
-            id: 3,
-            trip_id: '323',
-            driver: 'Sarah',
-            distance: '780 km',
-            fuel_expense: '15k',
-            misc_expense: '2k',
-            status: 'Pending'
-        }
-    ])
+    const [expenses, setExpenses] = useState([])
+    const [loading, setLoading] = useState(true)
     const [searchTerm, setSearchTerm] = useState('')
     const [showModal, setShowModal] = useState(false)
 
-    const handleAddExpense = () => {
-        setShowModal(true)
-    }
+    useEffect(() => { fetchExpenses() }, [])
 
-    const handleSaveExpense = (expenseData) => {
-        const newExpense = {
-            id: Date.now(),
-            ...expenseData
+    const fetchExpenses = async () => {
+        try {
+            setLoading(true)
+            const data = await expenseApi.getAll()
+            setExpenses(data)
+        } catch (error) {
+            console.error('Failed to fetch expenses:', error)
+        } finally {
+            setLoading(false)
         }
-        setExpenses([...expenses, newExpense])
-        setShowModal(false)
     }
 
-    const handleDeleteExpense = (id) => {
+    const handleSaveExpense = async (expenseData) => {
+        try {
+            await expenseApi.create(expenseData)
+            setShowModal(false)
+            fetchExpenses()
+        } catch (error) {
+            alert('Failed to save expense: ' + (error.response?.data?.detail || error.message))
+        }
+    }
+
+    const handleDeleteExpense = async (id) => {
         if (window.confirm('Are you sure you want to delete this expense?')) {
-            setExpenses(expenses.filter(e => e.id !== id))
+            try {
+                await expenseApi.delete(id)
+                fetchExpenses()
+            } catch (error) {
+                console.error('Failed to delete expense:', error)
+            }
         }
     }
 
     const filteredExpenses = expenses.filter(expense =>
-        expense.trip_id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        expense.driver?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        expense.status?.toLowerCase().includes(searchTerm.toLowerCase())
+        (expense.trip_id?.toString() || '').includes(searchTerm.toLowerCase()) ||
+        (expense.driver_name || expense.driver || '')?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (expense.expense_type || '')?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (expense.status || '')?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
     const getStatusClass = (status) => {
-        const statusMap = {
-            'done': 'status-idle',
-            'pending': 'status-maintenance',
-            'cancelled': 'status-retired'
-        }
-        return statusMap[status?.toLowerCase()] || 'status-idle'
+        const m = { 'done': 'status-idle', 'pending': 'status-maintenance', 'cancelled': 'status-retired' }
+        return m[status?.toLowerCase()] || 'status-idle'
+    }
+
+    const formatExpenseVal = (val) => {
+        if (typeof val === 'number' && val > 0) return `₹${val.toLocaleString()}`
+        return val || '-'
     }
 
     return (
@@ -78,40 +70,23 @@ function ExpenseLogging() {
             <div className="toolbar">
                 <div className="search-container">
                     <Search className="search-icon" size={18} />
-                    <input
-                        type="text"
-                        className="search-input"
-                        placeholder="Search expenses..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                    <input type="text" className="search-input" placeholder="Search expenses..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
-
                 <div className="toolbar-actions">
-                    <button className="btn btn-secondary">
-                        <Filter size={16} />
-                        Filter
-                    </button>
-                    <button className="btn btn-secondary">
-                        <ArrowUpDown size={16} />
-                        Sort by...
-                    </button>
-                    <button className="btn btn-primary" onClick={handleAddExpense}>
-                        <Plus size={16} />
-                        Add an Expense
-                    </button>
+                    <button className="btn btn-secondary"><Filter size={16} /> Filter</button>
+                    <button className="btn btn-secondary"><ArrowUpDown size={16} /> Sort by...</button>
+                    <button className="btn btn-primary" onClick={() => setShowModal(true)}><Plus size={16} /> Add an Expense</button>
                 </div>
             </div>
 
             <div className="table-container">
-                {filteredExpenses.length === 0 ? (
+                {loading ? (
+                    <div className="loading"><div className="spinner"></div></div>
+                ) : filteredExpenses.length === 0 ? (
                     <div className="empty-state">
                         <Receipt size={48} />
                         <p>No expenses found</p>
-                        <button className="btn btn-primary" style={{ marginTop: '1rem' }} onClick={handleAddExpense}>
-                            <Plus size={16} />
-                            Add your first expense
-                        </button>
+                        <button className="btn btn-primary" style={{ marginTop: '1rem' }} onClick={() => setShowModal(true)}><Plus size={16} /> Add your first expense</button>
                     </div>
                 ) : (
                     <table className="table">
@@ -123,6 +98,7 @@ function ExpenseLogging() {
                                 <th>Distance</th>
                                 <th>Fuel Expense</th>
                                 <th>Misc. Expense</th>
+                                <th>Date</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -131,24 +107,17 @@ function ExpenseLogging() {
                             {filteredExpenses.map((expense, index) => (
                                 <tr key={expense.id}>
                                     <td>{index + 1}</td>
-                                    <td style={{ fontWeight: 500 }}>{expense.trip_id}</td>
-                                    <td>{expense.driver}</td>
-                                    <td>{expense.distance}</td>
-                                    <td>{expense.fuel_expense}</td>
-                                    <td>{expense.misc_expense}</td>
+                                    <td style={{ fontWeight: 500 }}>{expense.trip_id || '-'}</td>
+                                    <td>{expense.driver_name || expense.driver || '-'}</td>
+                                    <td>{expense.distance_km || expense.distance || '-'}</td>
+                                    <td>{formatExpenseVal(expense.fuel_expense)}</td>
+                                    <td>{formatExpenseVal(expense.misc_expense)}</td>
+                                    <td>{expense.date || '-'}</td>
                                     <td>
-                                        <span className={`status-badge ${getStatusClass(expense.status)}`}>
-                                            {expense.status}
-                                        </span>
+                                        <span className={`status-badge ${getStatusClass(expense.status)}`}>{expense.status}</span>
                                     </td>
                                     <td>
-                                        <button
-                                            className="btn btn-danger"
-                                            onClick={() => handleDeleteExpense(expense.id)}
-                                            title="Delete expense"
-                                        >
-                                            <X size={16} />
-                                        </button>
+                                        <button className="btn btn-danger" onClick={() => handleDeleteExpense(expense.id)} title="Delete expense"><X size={16} /></button>
                                     </td>
                                 </tr>
                             ))}
@@ -157,12 +126,7 @@ function ExpenseLogging() {
                 )}
             </div>
 
-            {showModal && (
-                <ExpenseModal
-                    onSave={handleSaveExpense}
-                    onClose={() => setShowModal(false)}
-                />
-            )}
+            {showModal && <ExpenseModal onSave={handleSaveExpense} onClose={() => setShowModal(false)} />}
         </div>
     )
 }

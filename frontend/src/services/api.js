@@ -208,4 +208,34 @@ export const driverApi = {
   }
 }
 
+// Expense API
+export const expenseApi = {
+  getAll: async () => {
+    const response = await api.get('/expenses')
+    return response.data
+  },
+
+  create: async (data) => {
+    const response = await api.post('/expenses', data)
+    return response.data
+  },
+
+  delete: async (id) => {
+    const response = await api.delete(`/expenses/${id}`)
+    return response.data
+  }
+}
+
+// Auth API
+export const authApi = {
+  login: async (credentials) => {
+    const response = await api.post('/auth/login', credentials)
+    return response.data
+  },
+  register: async (userData) => {
+    const response = await api.post('/auth/register', userData)
+    return response.data
+  }
+}
+
 export default api

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Search, Filter, ArrowUpDown, Truck, MapPin } from 'lucide-react'
+import { Search, Filter, ArrowUpDown, Truck, MapPin, X, Edit2, Play, CheckCircle, Ban } from 'lucide-react'
 import TripForm from '../components/TripForm'
 import { tripApi, vehicleApi } from '../services/api'
 
@@ -9,9 +9,7 @@ function TripManagement() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  useEffect(() => { fetchData() }, [])
 
   const fetchData = async () => {
     try {
@@ -34,38 +32,50 @@ function TripManagement() {
       await tripApi.create(tripData)
       fetchData()
     } catch (error) {
-      console.error('Failed to dispatch trip:', error)
       alert('Failed to dispatch trip: ' + (error.response?.data?.detail || error.message))
     }
   }
 
+  const handleStatusChange = async (id, status) => {
+    try {
+      await tripApi.updateStatus(id, status)
+      fetchData()
+    } catch (error) {
+      console.error('Failed to update trip status:', error)
+    }
+  }
+
+  const handleDeleteTrip = async (id) => {
+    if (window.confirm('Delete this trip?')) {
+      try {
+        await tripApi.delete(id)
+        fetchData()
+      } catch (error) {
+        console.error('Failed to delete trip:', error)
+      }
+    }
+  }
+
   const filteredTrips = trips.filter(trip =>
-    trip.origin?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    trip.destination?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    trip.vehicle?.license_plate?.toLowerCase().includes(searchTerm.toLowerCase())
+    (trip.origin || trip.start_location || '')?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (trip.destination || trip.end_location || '')?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (trip.vehicle?.license_plate || '')?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (trip.driver?.name || trip.driver_name || '')?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getStatusClass = (status) => {
-    const statusMap = {
-      'scheduled': 'status-idle',
-      'in_progress': 'status-active',
-      'on_way': 'status-active',
-      'completed': 'status-maintenance',
+    const m = {
+      'scheduled': 'status-idle', 'in_progress': 'status-active',
+      'on_way': 'status-active', 'completed': 'status-maintenance',
       'cancelled': 'status-retired'
     }
-    return statusMap[status?.toLowerCase()] || 'status-idle'
+    return m[status?.toLowerCase()] || 'status-idle'
   }
 
   const formatStatus = (status) => {
     if (!status) return 'Scheduled'
-    const statusLabels = {
-      'scheduled': 'Scheduled',
-      'in_progress': 'On Way',
-      'on_way': 'On Way',
-      'completed': 'Completed',
-      'cancelled': 'Cancelled'
-    }
-    return statusLabels[status?.toLowerCase()] || status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+    const m = { 'scheduled': 'Scheduled', 'in_progress': 'In Progress', 'on_way': 'On Way', 'completed': 'Completed', 'cancelled': 'Cancelled' }
+    return m[status?.toLowerCase()] || status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
   }
 
   return (
@@ -77,32 +87,17 @@ function TripManagement() {
       <div className="toolbar">
         <div className="search-container">
           <Search className="search-icon" size={18} />
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search trips..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          <input type="text" className="search-input" placeholder="Search trips..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
-        
         <div className="toolbar-actions">
-          <button className="btn btn-secondary">
-            <Filter size={16} />
-            Filter
-          </button>
-          <button className="btn btn-secondary">
-            <ArrowUpDown size={16} />
-            Sort by...
-          </button>
+          <button className="btn btn-secondary"><Filter size={16} /> Filter</button>
+          <button className="btn btn-secondary"><ArrowUpDown size={16} /> Sort by...</button>
         </div>
       </div>
 
       <div className="table-container">
         {loading ? (
-          <div className="loading">
-            <div className="spinner"></div>
-          </div>
+          <div className="loading"><div className="spinner"></div></div>
         ) : filteredTrips.length === 0 ? (
           <div className="empty-state">
             <MapPin size={48} />
@@ -113,11 +108,14 @@ function TripManagement() {
           <table className="table">
             <thead>
               <tr>
-                <th>Trip</th>
-                <th>Fleet Type</th>
+                <th>#</th>
+                <th>Vehicle</th>
+                <th>Driver</th>
                 <th>Origin</th>
                 <th>Destination</th>
+                <th>Cargo (kg)</th>
                 <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -127,15 +125,37 @@ function TripManagement() {
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <Truck size={16} style={{ color: 'var(--gray-400)' }} />
-                      {trip.vehicle?.vehicle_type || trip.fleet_type || 'Truck'}
+                      {trip.vehicle?.license_plate || trip.fleet_type || `Vehicle #${trip.vehicle_id}`}
                     </div>
                   </td>
-                  <td>{trip.origin || '-'}</td>
-                  <td>{trip.destination || '-'}</td>
+                  <td>{trip.driver?.name || trip.driver_name || `Driver #${trip.driver_id}`}</td>
+                  <td>{trip.origin || trip.start_location || '-'}</td>
+                  <td>{trip.destination || trip.end_location || '-'}</td>
+                  <td>{trip.cargo_weight || 0}</td>
                   <td>
                     <span className={`status-badge ${getStatusClass(trip.status)}`}>
                       {formatStatus(trip.status)}
                     </span>
+                  </td>
+                  <td>
+                    {trip.status === 'scheduled' && (
+                      <>
+                        <button className="btn btn-secondary" onClick={() => handleStatusChange(trip.id, 'in_progress')} title="Start trip" style={{ padding: '0.35rem', marginRight: '0.25rem' }}>
+                          <Play size={14} />
+                        </button>
+                        <button className="btn btn-danger" onClick={() => handleStatusChange(trip.id, 'cancelled')} title="Cancel trip" style={{ padding: '0.35rem', marginRight: '0.25rem' }}>
+                          <Ban size={14} />
+                        </button>
+                      </>
+                    )}
+                    {trip.status === 'in_progress' && (
+                      <button className="btn btn-primary" onClick={() => handleStatusChange(trip.id, 'completed')} title="Complete trip" style={{ padding: '0.35rem', marginRight: '0.25rem' }}>
+                        <CheckCircle size={14} />
+                      </button>
+                    )}
+                    <button className="btn btn-danger" onClick={() => handleDeleteTrip(trip.id)} title="Delete" style={{ padding: '0.35rem' }}>
+                      <X size={14} />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -144,11 +164,7 @@ function TripManagement() {
         )}
       </div>
 
-      {/* New Trip Form */}
-      <TripForm 
-        vehicles={vehicles.filter(v => v.status === 'idle' || v.status === 'active')} 
-        onSubmit={handleDispatchTrip} 
-      />
+      <TripForm vehicles={vehicles.filter(v => v.status === 'idle' || v.status === 'available' || v.status === 'active')} onSubmit={handleDispatchTrip} />
     </div>
   )
 }
