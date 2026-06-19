@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Search, Plus, Filter, ArrowUpDown, X, Truck } from 'lucide-react'
+import { Search, Plus, Filter, ArrowUpDown, X, Edit2, Truck } from 'lucide-react'
 import VehicleModal from '../components/VehicleModal'
 import { vehicleApi } from '../services/api'
 
@@ -63,17 +63,24 @@ function VehicleRegistry() {
 
   const filteredVehicles = vehicles.filter(vehicle =>
     vehicle.license_plate?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    vehicle.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     vehicle.model?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    vehicle.type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     vehicle.vehicle_type?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getStatusClass = (status) => {
     const statusMap = {
       'idle': 'status-idle',
+      'available': 'status-idle',
       'active': 'status-active',
-      'in_trip': 'status-active',
+      'on_trip': 'status-active',
+      'on trip': 'status-active',
+      'in_shop': 'status-maintenance',
       'maintenance': 'status-maintenance',
-      'retired': 'status-retired'
+      'in shop': 'status-maintenance',
+      'retired': 'status-retired',
+      'out of service': 'status-retired'
     }
     return statusMap[status?.toLowerCase()] || 'status-idle'
   }
@@ -136,11 +143,11 @@ function VehicleRegistry() {
             <thead>
               <tr>
                 <th>NO</th>
-                <th>Plate</th>
-                <th>Model</th>
+                <th>License Plate</th>
+                <th>Name / Model</th>
                 <th>Type</th>
-                <th>Capacity</th>
-                <th>Odometer</th>
+                <th>Capacity (tons)</th>
+                <th>Odometer (km)</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -150,16 +157,24 @@ function VehicleRegistry() {
                 <tr key={vehicle.id}>
                   <td>{index + 1}</td>
                   <td style={{ fontWeight: 500 }}>{vehicle.license_plate}</td>
-                  <td>{vehicle.model || '-'}</td>
-                  <td>{vehicle.vehicle_type || '-'}</td>
-                  <td>{vehicle.max_load_capacity ? `${vehicle.max_load_capacity} tons` : '-'}</td>
-                  <td>{vehicle.current_odometer?.toLocaleString() || '0'}</td>
+                  <td>{vehicle.name || vehicle.model || '-'}</td>
+                  <td>{vehicle.type || vehicle.vehicle_type || '-'}</td>
+                  <td>{vehicle.max_load_capacity || vehicle.max_capacity ? `${vehicle.max_load_capacity || vehicle.max_capacity} tons` : '-'}</td>
+                  <td>{(vehicle.current_odometer || vehicle.odometer)?.toLocaleString() || '0'}</td>
                   <td>
                     <span className={`status-badge ${getStatusClass(vehicle.status)}`}>
                       {formatStatus(vehicle.status)}
                     </span>
                   </td>
                   <td>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => handleEditVehicle(vehicle)}
+                      title="Edit vehicle"
+                      style={{ marginRight: '0.5rem', padding: '0.5rem' }}
+                    >
+                      <Edit2 size={14} />
+                    </button>
                     <button
                       className="btn btn-danger"
                       onClick={() => handleDeleteVehicle(vehicle.id)}

@@ -33,12 +33,17 @@ function VehicleModal({ vehicle, onSave, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const data = {
+    const mlc = formData.max_load_capacity ? parseFloat(formData.max_load_capacity) : 0
+    const co = formData.current_odometer ? parseInt(formData.current_odometer) : 0
+    onSave({
       ...formData,
-      max_load_capacity: formData.max_load_capacity ? parseFloat(formData.max_load_capacity) : null,
-      current_odometer: formData.current_odometer ? parseInt(formData.current_odometer) : 0
-    }
-    onSave(data)
+      name: formData.model || formData.vehicle_type || 'Vehicle',
+      type: formData.vehicle_type.charAt(0).toUpperCase() + formData.vehicle_type.slice(1),
+      max_capacity: mlc,
+      max_load_capacity: mlc,
+      odometer: co,
+      current_odometer: co,
+    })
   }
 
   const vehicleTypes = [
