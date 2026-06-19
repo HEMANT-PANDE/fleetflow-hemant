@@ -34,5 +34,3 @@ FleetFlow is a comprehensive fleet management application designed to handle dri
 3. Set environment variables to point to the correct backend API URLs.
 4. Run the development server: `npm run dev`.
 
-## License
-[Add License Here]
